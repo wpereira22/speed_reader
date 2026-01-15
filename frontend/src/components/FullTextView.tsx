@@ -16,8 +16,19 @@ interface FullTextViewProps {
 
 const WORDS_PER_PAGE = 300;
 
+function isWordToken(token: string) {
+  return /[A-Za-z0-9]/.test(token);
+}
+
 function countWords(text: string) {
-  return text.match(/[A-Za-z0-9]+/g)?.length ?? 0;
+  const tokens = text.match(/\S+/g) ?? [];
+  let count = 0;
+  tokens.forEach((token) => {
+    if (isWordToken(token)) {
+      count += 1;
+    }
+  });
+  return count;
 }
 
 function isSentenceEnd(token: string) {
@@ -174,7 +185,7 @@ function FullTextView({
         if (/^\s+$/.test(token)) {
           return;
         }
-        const isWord = /[A-Za-z0-9]/.test(token);
+        const isWord = isWordToken(token);
         if (isWord && wordIndex === targetWordIndex) {
           activeSentenceId = sentenceId;
         }
@@ -194,7 +205,7 @@ function FullTextView({
         return token;
       }
 
-      const isWord = /[A-Za-z0-9]/.test(token);
+      const isWord = isWordToken(token);
       const isActiveWord = isActive && isWord && wordIndex === targetWordIndex;
       const isActiveSentence = isActive && sentenceId === activeSentenceId;
       const wordIndexInDocument = paragraphStart + wordIndex;
