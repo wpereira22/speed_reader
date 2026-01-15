@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { UploadResponse } from '../types';
+import { getSampleDocument } from '../lib/sampleDocument';
 
 interface FileUploadProps {
   onLoaded: (data: UploadResponse) => void;
@@ -40,6 +41,11 @@ export default function FileUpload({ onLoaded }: FileUploadProps) {
     }
   };
 
+  const handleSampleDocument = () => {
+    setError(null);
+    onLoaded(getSampleDocument());
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-black text-white" style={{ backgroundColor: '#000000' }}>
       <div className="text-center max-w-md px-8">
@@ -65,6 +71,21 @@ export default function FileUpload({ onLoaded }: FileUploadProps) {
           >
             {isUploading ? 'Processing...' : 'Choose File'}
           </label>
+        </div>
+
+        <div className="mt-4 flex flex-col items-center gap-3">
+          <div className="text-xs uppercase tracking-[0.3em] text-gray-600">or</div>
+          <button
+            type="button"
+            onClick={handleSampleDocument}
+            disabled={isUploading}
+            className={`px-6 py-3 border border-gray-700 rounded text-sm uppercase tracking-widest text-gray-200 hover:border-gray-500 hover:text-white transition-colors ${
+              isUploading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            Try sample document
+          </button>
+          <p className="text-xs text-gray-500">No upload needed, just start reading.</p>
         </div>
 
         {error && (
