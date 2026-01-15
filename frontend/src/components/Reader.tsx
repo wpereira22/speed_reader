@@ -57,7 +57,7 @@ export default function Reader({ words, fullText, meta, fileName, onBack }: Read
   const [orpColor, setOrpColor] = useState('#ef4444');
   const [orpEffect, setOrpEffect] = useState<'solid' | 'breathe' | 'gradient'>('solid');
   const [orpBreatheSpeed, setOrpBreatheSpeed] = useState(10);
-  const [orpGradientPreset, setOrpGradientPreset] = useState('sunset');
+  const [orpGradientPreset, setOrpGradientPreset] = useState<'sunset' | 'aurora' | 'ember' | 'rainforest'>('sunset');
   const [orpGradientSpeed, setOrpGradientSpeed] = useState(14);
   const wpmHoldRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const wpmToastRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -628,7 +628,7 @@ export default function Reader({ words, fullText, meta, fileName, onBack }: Read
                   Preset
                   <select
                     value={orpGradientPreset}
-                    onChange={(e) => setOrpGradientPreset(e.target.value)}
+                    onChange={(e) => setOrpGradientPreset(e.target.value as 'sunset' | 'aurora' | 'ember' | 'rainforest')}
                     className="px-2 py-1 bg-gray-900 border border-gray-700 rounded text-white text-xs"
                   >
                     <option value="sunset">Sunset</option>
